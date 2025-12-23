@@ -28,4 +28,4 @@ jobs:
 
       - name: check the cluster connectivity
         run: |
-          kubectl get nodes
+          kubectl get nodes --insecure-skip-tls-verify

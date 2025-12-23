@@ -1,9 +1,9 @@
 name: k8s-deployments
 on:
   workflow_call:
-    # secrets:
-    #   KUBECONFIG_DATA:
-    #     required: true
+    secrets:
+      KUBECONFIG_DATA:
+        required: true
 jobs:
   Deploy-to-kubernetes:
     environment: Dev

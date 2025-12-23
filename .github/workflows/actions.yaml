@@ -1,6 +1,10 @@
 name: k8s-deployments
 on:
   workflow_call:
+    inputs:
+      image_version:
+        type: string
+        required: true
     secrets:
       KUBECONFIG_DATA:
         required: true
@@ -8,27 +12,39 @@ jobs:
   Deploy-to-kubernetes:
     runs-on: ubuntu-latest
     steps:
+      # Checkout the repository
       - name: checkout repository
         uses: actions/checkout@v4
 
+      # setup kubectl in the runner
       - name: Setup kubectl
         uses: azure/setup-kubectl@v3
 
-      - name: Configure Kubectl
-        run: |
-          mkdir -p ~/.kube
-          # Decodes your secret and saves it as the config file
-          echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > ~/.kube/config
-          # Restrict permissions (standard K8s security practice)
-          chmod 600 ~/.kube/config
-          cat ~/.kube/config
+      # - name: Configure Kubectl
+      #   run: |
+      #     mkdir -p ~/.kube
+      #     # Decodes your secret and saves it as the config file
+      #     echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > ~/.kube/config
+      #     # Restrict permissions (standard K8s security practice)
+      #     chmod 600 ~/.kube/config
+      #     cat ~/.kube/config
 
-      # - name: Connect to Kubernetes
-      #   uses: azure/k8s-set-context@v3
-      #   with:
-      #     method: kubeconfig
-      #     kubeconfig: ${{ secrets.KUBECONFIG_DATA }}
+      - name: Connect to Kubernetes
+        uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG_DATA }}
 
       - name: check the cluster connectivity
         run: |
           kubectl get nodes --insecure-skip-tls-verify
+
+      # update the image Tag in the manifests file.
+      - name: update the image tag
+        run: |
+          sed -i "s|image: .*:.*|image: mniranjanr7/nodeapp:${{ inputs.image_version }}|g" k8s/deployment.yaml
+
+      # This step run the deployment files
+      - name: Run the k8s-manifests files
+        run: |
+          kubectl apply -f manifests/nodeapp.yaml

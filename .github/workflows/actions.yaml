@@ -19,6 +19,7 @@ jobs:
           echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > ~/.kube/config
           # Restrict permissions (standard K8s security practice)
           chmod 600 ~/.kube/config
+          cat ~/.kube/config
 
       # - name: Connect to Kubernetes
       #   uses: azure/k8s-set-context@v3

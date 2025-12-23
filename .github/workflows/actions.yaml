@@ -16,7 +16,7 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v4
         with:
-          repository: mniranjanr7/k8s-deployments/
+          repository: mniranjanr7/k8s-deployments
           path: k8s-infra
 
       # setup kubectl in the runner

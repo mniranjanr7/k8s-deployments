@@ -14,7 +14,7 @@ jobs:
       - name: Connect to Kubernetes
         uses: azure/k8s-set-context@v3
         with:
-          context: kubeconfig
+          method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG_DATA }}
 
       - name: check the cluster connectivity

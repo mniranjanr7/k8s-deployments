@@ -4,6 +4,7 @@ on:
 jobs:
   Deploy-to-kubernetes:
     runs-on: ubuntu-latest
+    environment: Dev
     steps:
       - name: checkout repository
         uses: actions/checkout@v3

@@ -1,0 +1,22 @@
+name: k8s-deployments
+on:
+  workflow_call:
+jobs:
+  Deploy-to-kubernetes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Connect to Kubernetes
+        uses: azure/k8s-set-context@v3
+        with:
+          context: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG_DATA }}
+
+      - name: check the cluster connectivity
+        run: |
+          kubectl get nodes

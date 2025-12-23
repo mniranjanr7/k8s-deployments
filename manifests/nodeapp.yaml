@@ -25,7 +25,7 @@ kind: Service
 metadata:
   name: nodeapp-svc
 spec:
-  type: Nodeport
+  type: NodePort
   selector:
     name: nodeapp
   ports:

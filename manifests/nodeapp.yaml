@@ -26,7 +26,7 @@ metadata:
   name: nodeapp-svc
 spec:
   type: Nodeport
-  selectors:
+  selector:
     name: nodeapp
   ports:
     - port: 80

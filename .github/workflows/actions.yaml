@@ -42,7 +42,10 @@ jobs:
       # update the image Tag in the manifests file.
       - name: update the image tag
         run: |
-          sed -i "s|image: .*:.*|image: mniranjanr7/nodeapp:${{ inputs.image_version }}|g" k8s/nodeapp.yaml
+          pwd
+          echo "list files"
+          ls -lthr
+          sed -i "s|image: .*:.*|image: mniranjanr7/nodeapp:${{ inputs.image_version }}|g" manifests/nodeapp.yaml
 
       # This step run the deployment files
       - name: Run the k8s-manifests files

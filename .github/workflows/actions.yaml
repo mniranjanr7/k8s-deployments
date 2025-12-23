@@ -6,7 +6,6 @@ on:
         required: true
 jobs:
   Deploy-to-kubernetes:
-    environment: Dev
     runs-on: ubuntu-latest
     steps:
       - name: checkout repository

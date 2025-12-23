@@ -1,13 +1,16 @@
 name: k8s-deployments
 on:
   workflow_call:
+    # secrets:
+    #   KUBECONFIG_DATA:
+    #     required: true
 jobs:
   Deploy-to-kubernetes:
-    runs-on: ubuntu-latest
     environment: Dev
+    runs-on: ubuntu-latest
     steps:
       - name: checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup kubectl
         uses: azure/setup-kubectl@v3

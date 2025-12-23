@@ -12,11 +12,19 @@ jobs:
       - name: Setup kubectl
         uses: azure/setup-kubectl@v3
 
-      - name: Connect to Kubernetes
-        uses: azure/k8s-set-context@v3
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG_DATA }}
+      - name: Configure Kubectl
+        run: |
+          mkdir -p ~/.kube
+          # Decodes your secret and saves it as the config file
+          echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > ~/.kube/config
+          # Restrict permissions (standard K8s security practice)
+          chmod 600 ~/.kube/config
+
+      # - name: Connect to Kubernetes
+      #   uses: azure/k8s-set-context@v3
+      #   with:
+      #     method: kubeconfig
+      #     kubeconfig: ${{ secrets.KUBECONFIG_DATA }}
 
       - name: check the cluster connectivity
         run: |

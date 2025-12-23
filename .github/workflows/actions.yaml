@@ -15,19 +15,13 @@ jobs:
       # Checkout the repository
       - name: checkout repository
         uses: actions/checkout@v4
+        with:
+          repository: mniranjanr7/k8s-deployments/
+          path: k8s-infra
 
       # setup kubectl in the runner
       - name: Setup kubectl
         uses: azure/setup-kubectl@v3
-
-      # - name: Configure Kubectl
-      #   run: |
-      #     mkdir -p ~/.kube
-      #     # Decodes your secret and saves it as the config file
-      #     echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > ~/.kube/config
-      #     # Restrict permissions (standard K8s security practice)
-      #     chmod 600 ~/.kube/config
-      #     cat ~/.kube/config
 
       - name: Connect to Kubernetes
         uses: azure/k8s-set-context@v3
@@ -45,9 +39,10 @@ jobs:
           pwd
           echo "list files"
           ls -lthr
-          sed -i "s|image: .*:.*|image: mniranjanr7/nodeapp:${{ inputs.image_version }}|g" manifests/nodeapp.yaml
+          sed -i "s|image: .*:.*|image: mniranjanr7/nodeapp:${{ inputs.image_version }}|g" k8s-infra/manifests/nodeapp.yaml
+          grep image k8s-infra/manifests/nodeapp.yaml
 
       # This step run the deployment files
       - name: Run the k8s-manifests files
         run: |
-          kubectl apply -f manifests/nodeapp.yaml
+          kubectl apply -f k8s-infra/manifests/nodeapp.yaml

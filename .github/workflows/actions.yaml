@@ -39,8 +39,8 @@ jobs:
           pwd
           echo "list files"
           ls -lthr
-          export image_id=${{inputs.image_version}}
-          echo "image_id"
+          export IMAGE_ID=${{inputs.image_version}}
+          echo "$IMAGE_ID"
           sed -i "s|image: .*:.*|image: mniranjanr7/nodeapp:${{ inputs.image_version }}|g" k8s-infra/manifests/nodeapp.yaml
           grep image k8s-infra/manifests/nodeapp.yaml
 

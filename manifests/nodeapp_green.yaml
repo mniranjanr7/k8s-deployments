@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapp-green
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nodeapp
+      color: green
+  template:
+    metadata:
+      name: nodeapp
+      labels:
+        name: nodeapp
+        color: green
+    spec:
+      containers:
+        - name: nodeapp
+          image: mniranjanr7/nodeapp:${IMAGE_ID}
+          ports:
+            - name: http
+              containerPort: 3000
+      tolerations:
+        - key: "color"
+          operator: Equal
+          value: "green"
+          effect: "NoSchedule"

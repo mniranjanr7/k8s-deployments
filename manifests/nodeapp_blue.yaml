@@ -7,11 +7,13 @@ spec:
   selector:
     matchLabels:
       name: nodeapp
+      color: blue
   template:
     metadata:
       name: nodeapp
       labels:
         name: nodeapp
+        color: blue
     spec:
       containers:
         - name: nodeapp
@@ -28,6 +30,7 @@ spec:
   type: NodePort
   selector:
     name: nodeapp
+    color: ${DEPLOY_STRATEGY}
   ports:
     - port: 80
       targetPort: 3000

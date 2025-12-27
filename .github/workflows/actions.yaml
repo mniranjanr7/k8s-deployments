@@ -38,7 +38,7 @@ jobs:
 
       - name: check the cluster connectivity
         run: |
-          kubectl get nodes --insecure-skip-tls-
+          kubectl get nodes --insecure-skip-tls-verify
 
       # verfiy the environments to apply the files related to the env
       - name: check environments
@@ -54,6 +54,7 @@ jobs:
             echo "the environment is: $ENVIRONMENT which is not supported"
             exit 1
           fi
+          echo "TEMPLATE=$TEMPLATE" >> $GITHUB_ENV
           echo "Using template: $TEMPLATE"
       # update the image Tag in the manifests file.
       - name: update the image tag

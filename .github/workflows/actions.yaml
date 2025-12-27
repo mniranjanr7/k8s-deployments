@@ -8,12 +8,16 @@ on:
       deploy_strategy:
         type: string
         required: true
+      environment:
+        type: string
+        required: true
     secrets:
       KUBECONFIG_DATA:
         required: true
 jobs:
   Deploy-to-kubernetes:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       # Checkout the repository
       - name: checkout repository
@@ -51,7 +55,6 @@ jobs:
           # sed -i "s|image: .*:.*|image: mniranjanr7/nodeapp:${{ inputs.image_version }}|g" k8s-infra/manifests/nodeapp.yaml
 
           envsubst < k8s-infra/manifests/nodeapp_blue.yaml > k8s-infra/manifests/final-nodeapp.yaml
-          envsubst < k8s-infra/manifests/nodeapp_green.yaml > k8s-infra/manifests/nodeapp_green.yaml
 
           # verfiy if the image tag is updated in the final-nodeapp.yml
           grep image k8s-infra/manifests/final-nodeapp.yaml

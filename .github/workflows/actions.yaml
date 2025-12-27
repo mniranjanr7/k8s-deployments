@@ -17,7 +17,7 @@ on:
 jobs:
   Deploy-to-kubernetes:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: "${{ inputs.environment }}"
     steps:
       # Checkout the repository
       - name: checkout repository
@@ -44,7 +44,7 @@ jobs:
       - name: check environments
         run: |
           ENVIRONMENT="${{inputs.environment}}"
-          if [ "$ENVIRONMENT" == "Dev" ]; then
+          if [ "$ENVIRONMENT" == "dev" ]; then
             TEMPLATE="nodeapp-dev.yaml"
           elif [ "$ENVIRONMENT" == "test" ]; then
               TEMPLATE=nodeapp-test.yaml
